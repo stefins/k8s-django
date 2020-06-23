@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: django-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      component: django
+  template:
+    metadata:
+      labels:
+        component: django
+    spec:
+      containers:
+        - name: django
+          image: iamstefin/django-deployment
+          ports:
+            - containerPort: 8000
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pgpassword
+                  key: PGPASSWORD
