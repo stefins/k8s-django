@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: media-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: media
+  template:
+    metadata:
+      labels:
+        component: media
+    spec:
+      volumes:
+        - name: media-storage
+          persistentVolumeClaim:
+            claimName: database-persistent-volume-claim
+      containers:
+        - name: nginx
+          image: iamstefin/nginx-media
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: media-storage
+              mountPath: /media

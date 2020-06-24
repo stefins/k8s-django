@@ -3,14 +3,13 @@ kind: Ingress
 metadata:
   name: ingress-service
   annotations:
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    kubernetes.io/ingress.class: traefik
 
 spec:
   rules:
-    - http:
-        paths:
-          - path: /?(.*)
-            backend:
-              serviceName: django-deployment-cluster-ip-service
-              servicePort: 8000
+  - host: localhost
+    http:
+      paths:
+      - backend:
+          serviceName: django-deployment-cluster-ip-service
+          servicePort: 8000
