@@ -4,12 +4,17 @@ metadata:
   name: ingress-service
   annotations:
     kubernetes.io/ingress.class: traefik
-
+    traefik.frontend.rule.type: PathPrefixStrip
 spec:
   rules:
   - host: localhost
     http:
       paths:
-      - backend:
+      - path: /
+        backend:
           serviceName: django-deployment-cluster-ip-service
           servicePort: 8000
+      - path: /media
+        backend:
+          serviceName: media-cluster-ip-service
+          servicePort: 80

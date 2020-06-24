@@ -13,11 +13,18 @@ spec:
       labels:
         component: django
     spec:
+      volumes:
+        - name: media-storage
+          persistentVolumeClaim:
+            claimName: database-persistent-volume-claim
       containers:
         - name: django
           image: iamstefin/django-deployment
           ports:
             - containerPort: 8000
+          volumeMounts:
+            - name: media-storage
+              mountPath: /app/media
           env:
             - name: POSTGRES_PASSWORD
               valueFrom:
