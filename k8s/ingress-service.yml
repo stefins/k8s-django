@@ -1,20 +1,31 @@
-apiVersion: extensions/v1beta1
-kind: Ingress
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
 metadata:
-  name: ingress-service
-  annotations:
-    kubernetes.io/ingress.class: traefik
-    traefik.frontend.rule.type: PathPrefixStrip
+  name: media
+  namespace: default
 spec:
-  rules:
-  - host: localhost
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: django-deployment-cluster-ip-service
-          servicePort: 8000
-      - path: /media
-        backend:
-          serviceName: media-cluster-ip-service
-          servicePort: 80
+  entryPoints:
+    - websecure
+    - web
+  routes:
+  - match: Host(`localhost`) && PathPrefix(`/media`)
+    kind: Rule
+    services:
+    - name: media-cluster-ip-service
+      port: 80
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: home
+  namespace: default
+spec:
+  entryPoints:
+    - websecure
+    - web
+  routes:
+  - match: Host(`localhost`)
+    kind: Rule
+    services:
+    - name: django-deployment-cluster-ip-service
+      port: 8000
