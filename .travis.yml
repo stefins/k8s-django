@@ -6,11 +6,12 @@ env:
 before_install:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 script:
-  - make build-image
+  - docker build -t iamstefin/nginx-media -f ./nginx-media/Dockerfile ./nginx-media
+  - docker build -t iamstefin/django-deployment -f ./myproject/Dockerfile ./myproject
 deploy:
   skip_cleanup: true
   provider: script
   script:
-    - make push-image
+    - bash ./deploy.sh
   on:
     branch: master
