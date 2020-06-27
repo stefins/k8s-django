@@ -16,7 +16,7 @@ spec:
       volumes:
         - name: media-storage
           persistentVolumeClaim:
-            claimName: database-persistent-volume-claim
+            claimName: media-persistent-volume-claim
       containers:
         - name: django
           image: iamstefin/django-deployment
