@@ -2,7 +2,8 @@
 
 # k8s-django
 
-Deploy your Django project in to a Kubernetes cluster
+Deploy your Django project in to a Kubernetes cluster.
+
 Kubernetes config files can be found at k8s directory
 ## Initial setup
 
